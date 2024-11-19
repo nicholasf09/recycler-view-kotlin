@@ -1,6 +1,9 @@
 package com.example.recyclerview_c14220007
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -56,6 +59,15 @@ class MainActivity : AppCompatActivity() {
 
     fun tampilkanData(){
         _rvWayang.layoutManager = GridLayoutManager(this, 2)
-        _rvWayang.adapter = adapterRecView(arWayang)
+        val adapterWayang = adapterRecView(arWayang)
+        _rvWayang.adapter = adapterWayang
+
+        adapterWayang.setOnItemClickCallback(object: adapterRecView.onItemClickCallback{
+            override fun onItemClicked(data: wayang) {
+                val intent = Intent(this@MainActivity, detWayang::class.java)
+                intent.putExtra("kirimData", data)
+                startActivity(intent)
+            }
+        })
     }
 }

@@ -19,6 +19,11 @@ class adapterRecView (private val listWayang: ArrayList<wayang>) : RecyclerView
         var _deskripsiWayang = itemView.findViewById<TextView>(R.id.deskripsiWayang)
         var _gambarWayang = itemView.findViewById<ImageView>(R.id.gambarWayang)
     }
+    private lateinit var onItemClickCallBack: onItemClickCallback
+
+    interface onItemClickCallback {
+        fun onItemClicked(data: wayang)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -39,7 +44,10 @@ class adapterRecView (private val listWayang: ArrayList<wayang>) : RecyclerView
         Picasso.get().load(wayang.foto).into(holder._gambarWayang)
 
         holder._gambarWayang.setOnClickListener {
-            Toast.makeText(holder.itemView.context, wayang.nama, Toast.LENGTH_LONG).show()
+            onItemClickCallBack.onItemClicked(listWayang[position])
         }
+    }
+    fun setOnItemClickCallback(onItemClickCallback: onItemClickCallback) {
+        this.onItemClickCallBack = onItemClickCallback
     }
 }
